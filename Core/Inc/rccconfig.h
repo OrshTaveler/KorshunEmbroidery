@@ -3,3 +3,4 @@
 int configRcc();
 
 void configGPIO();
+void configTIM2();
