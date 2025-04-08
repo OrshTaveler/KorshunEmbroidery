@@ -1,6 +1,7 @@
 #include "stm32f1xx.h"
 
-int configRcc();
+#define SYSTEMFREQ 8000000
 
+int configRcc();
 void configGPIO();
-void configTIM2();
+
