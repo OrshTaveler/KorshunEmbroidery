@@ -3,4 +3,5 @@
 "./Core/Src/syscalls.o"
 "./Core/Src/sysmem.o"
 "./Core/Src/system_stm32f1xx.o"
+"./Core/Src/timers.o"
 "./Core/Startup/startup_stm32f103c8tx.o"

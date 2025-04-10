@@ -1,4 +1,2 @@
-../Drivers/CMSIS/Include/core_cm3.h:1511:22:__NVIC_EnableIRQ	16	static
 ../Core/Src/rccconfig.c:3:5:configRcc	4	static
-../Core/Src/rccconfig.c:21:6:configGPIO	4	static
-../Core/Src/rccconfig.c:33:6:configTIM2	8	static
+../Core/Src/rccconfig.c:46:6:configGPIO	4	static

@@ -1,26 +1,29 @@
 #include "main.h"
 #include "rccconfig.h"
 #include "timers.h"
-
+#include "GPIO.h"
 
 
 
 void PortSetHi(void)
 {
-  GPIOC->BSRR = (1<<13);
+	PIN_HIGH(GPIOC,13);
 }
 void PortSetLow(void)
 {
-  GPIOC->BRR = (1<<13);
+	PIN_LOW(GPIOC,13);
 }
 
 
 int main(void){
 	 configRcc();
 	 configGPIO();
-	 configTIM2();
+	 //configTIM2();
 	 configTIM3();
 	 while (1) {
-
+		 PortSetHi();
+		 delayMs(100);
+		 PortSetLow();
+		 delayMs(100);
 	 }
 }

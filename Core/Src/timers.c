@@ -60,14 +60,16 @@ void TIM2_IRQHandler(void) {
 	if (TIM2->SR & TIM_SR_CC1IF) {
 		TIM2->SR &= ~TIM_SR_CC1IF;  //Сбросим флаг прерывания
 		PortSetHi();
-		delayUs(100);
+		delayMs(100);
 		PortSetLow();
 	}
 }
 
+
+// Настраиваем TIM3 для функции delay
 void configTIM3(){
 	TIM3->PSC = 0;
-	TIM3->ARR = 8 - 1;
+	TIM3->ARR = 1;
 	RCC->APB1ENR |= RCC_APB1ENR_TIM3EN; // Включаем тактирование таймера TIM3
 	SET_BIT(TIM3->CR1, TIM_CR1_URS);// Генерируем прерывания при переполнении
 	SET_BIT(TIM3->EGR,TIM_EGR_UG);
@@ -82,13 +84,11 @@ void configTIM3(){
 void TIM3_IRQHandler(void) {
 	    ticks++;
 		TIM3->SR &= ~TIM_SR_UIF;  //Сбросим флаг прерывания
-		//PortSetLow();
-
 }
 
-void delayUs(int delay){
-	SET_BIT(TIM3->CR1, TIM_CR1_CEN);
+void delayMs(int delay){
 	ticks = 0;
+	SET_BIT(TIM3->CR1, TIM_CR1_CEN);
 	while (ticks < delay){}
 	CLEAR_BIT(TIM3->CR1, TIM_CR1_CEN);
 }
