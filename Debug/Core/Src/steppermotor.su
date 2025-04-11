@@ -1,0 +1,4 @@
+../Core/Src/steppermotor.c:8:6:change_direction	16	static
+../Core/Src/steppermotor.c:29:6:add_command_in_queue	24	static
+../Core/Src/steppermotor.c:34:6:move_commands	16	static
+../Core/Src/steppermotor.c:39:6:perfom_command	56	static

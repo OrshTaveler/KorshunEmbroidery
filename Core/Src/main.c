@@ -2,7 +2,7 @@
 #include "rccconfig.h"
 #include "timers.h"
 #include "GPIO.h"
-
+#include "steppermotor.h"
 
 
 void PortSetHi(void)
@@ -18,12 +18,16 @@ void PortSetLow(void)
 int main(void){
 	 configRcc();
 	 configGPIO();
-	 //configTIM2();
+	 configTIM2();
 	 configTIM3();
+
+
+
+
+
+
+
 	 while (1) {
-		 PortSetHi();
-		 delayMs(100);
-		 PortSetLow();
-		 delayMs(100);
+
 	 }
 }

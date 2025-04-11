@@ -44,9 +44,10 @@ int configRcc(){
 }
 
 void configGPIO(){
-	// Enable clocking of GPIOC and GPIOA
+	// Enable clocking of GPIOC and GPIOA and GPIOB
 	RCC->APB2ENR |= RCC_APB2ENR_IOPCEN;
 	RCC->APB2ENR |= RCC_APB2ENR_IOPAEN;
+	RCC->APB2ENR |= RCC_APB2ENR_IOPBEN;
 
 
 	// Seting CRH to all 0
@@ -54,7 +55,16 @@ void configGPIO(){
 	// Setting CRH 13 to output with max frequency of 10 MHz
 	GPIOC->CRH |= (0b01 << GPIO_CRH_MODE13_Pos) | (0b0 << GPIO_CRH_CNF13_Pos);
 
-	GPIOC->BRR = (1<<13);
+
+	// конфигурируем 11 пин регистра B на выход
+	GPIOB->CRH &= ~(GPIO_CRH_CNF11 | GPIO_CRH_MODE11);
+	GPIOB->CRH |= (0b01 << GPIO_CRH_MODE11_Pos) | (0b00 << GPIO_CRH_CNF11_Pos);
+
+	// конфигурируем 10 пин регистра B на выход
+	GPIOB->CRH &= ~(GPIO_CRH_CNF10 | GPIO_CRH_MODE10);
+	GPIOB->CRH |= (0b01 << GPIO_CRH_MODE10_Pos) | (0b00 << GPIO_CRH_CNF10_Pos);
+
+
 }
 
 

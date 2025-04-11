@@ -1,5 +1,7 @@
 #include "timers.h"
 #include "rccconfig.h"
+#include "steppermotor.h"
+
 
 int ticks = 0;
 // Настраиваем TIM2, для ШИМа
@@ -24,10 +26,9 @@ void configTIM2(){
 	SET_BIT(TIM2->DIER, TIM_DIER_UIE);
 
 
-	TIM2->PSC = 8000; // прескалер делит на 8000
-	TIM2->ARR = 1000 - 1; // авто-релоуд когда досчитали до 8000
-	// Таким образом прерывания по переполнению должны возникать раз в секунду (8МГц / 8000 * 8000 = 1Гц)
-	// То есть ШИМ будет тоже с частотой 1Гц
+	TIM2->PSC = SYSTEMFREQ/100000; // прескалер делит на 720
+	TIM2->ARR = 100 - 1; // авто-релоуд когда досчитали до 100
+
 
 	MODIFY_REG(TIM2->CCMR1, TIM_CCMR1_CC1S_Msk, 0b00 << TIM_CCMR1_CC1S_Pos); // Настраиваем первый канал на выход
 	MODIFY_REG(TIM2->CCMR1, TIM_CCMR1_OC1M_Msk, 0b110 << TIM_CCMR1_OC1M_Pos); // Настраиваем таймер в ШИМ мод 1 т.е. в считающий от 0 до CCR1
@@ -47,7 +48,7 @@ void configTIM2(){
 	SET_BIT(TIM2->CCER, TIM_CCER_CC1E); //On - OC1 signal is output on the corresponding output pin.
 	CLEAR_BIT(TIM2->CCER, TIM_CCER_CC1P);
 
-	TIM2->CCR1 = 800;
+	TIM2->CCR1 = PWM_DUTY-1;
 
 	NVIC_EnableIRQ(TIM2_IRQn);
 	NVIC_SetPriority(TIM2_IRQn, 1);
@@ -59,9 +60,9 @@ void configTIM2(){
 void TIM2_IRQHandler(void) {
 	if (TIM2->SR & TIM_SR_CC1IF) {
 		TIM2->SR &= ~TIM_SR_CC1IF;  //Сбросим флаг прерывания
-		PortSetHi();
-		delayMs(100);
-		PortSetLow();
+		perfom_command();
+		TIM2->CCR1 = pwm_duty;
+
 	}
 }
 

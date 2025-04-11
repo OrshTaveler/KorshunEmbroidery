@@ -1,5 +1,6 @@
 "./Core/Src/main.o"
 "./Core/Src/rccconfig.o"
+"./Core/Src/steppermotor.o"
 "./Core/Src/syscalls.o"
 "./Core/Src/sysmem.o"
 "./Core/Src/system_stm32f1xx.o"
